@@ -1,8 +1,20 @@
 {
-  "name": "simple-babel-template",
-  "description": "Babel and flow for npm",
-  "version": "0.1.0",
+  "name": "@gunubin/simple-babel-library-template",
+  "description": "Babel and flow for npm library",
+  "version": "0.0.0-development",
   "author": "gunubin",
+  "ava": {
+    "babel": "inherit",
+    "files": [
+      "test/*spec.js",
+      "src/**/__tests__/*.spec.js"
+    ],
+    "verbose": true,
+    "require": [
+      "babel-register",
+      "babel-polyfill"
+    ]
+  },
   "dependencies": {
     "chalk": "^2.3.0",
     "lodash": "^4.17.4",
@@ -25,20 +37,31 @@
     "flow-bin": "^0.61.0",
     "flow-copy-source": "^1.2.1",
     "npm-run-all": "^4.1.2",
-    "power-assert": "^1.4.4"
+    "nyc": "^11.4.1",
+    "power-assert": "^1.4.4",
+    "semantic-release": "^8.2.0"
   },
   "files": [
     "lib"
   ],
   "license": "MIT",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gunubin/simple-babel-library-template"
+  },
   "scripts": {
+    "build": "npm-run-all build:*",
     "build:flow": "flow-copy-source src lib",
+    "build:js": "NODE_ENV=production babel src --out-dir lib --source-maps inline",
+    "coverage": "nyc report --reporter=lcov --reporter=text && codecov",
     "lint:flow": "flow src",
     "lint:js": "eslint src test",
-    "start": "babel src --out-dir lib && node lib/index.js",
+    "start": "nodemon src --exec babel-node",
     "test": "npm-run-all lint:* test:*",
-    "test:ava": "NODE_ENV=test ava",
-    "watch": "babel src --out-dir lib --watch --source-maps inline"
+    "test:ava": "NODE_ENV=test nyc ava",
+    "watch": "babel src --out-dir lib --watch --source-maps inline",
+    "watch:ava": "NODE_ENV=test ava --watch",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   }
 }
