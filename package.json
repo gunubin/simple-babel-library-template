@@ -1,7 +1,6 @@
 {
   "name": "@gunubin/simple-babel-library-template",
   "description": "Babel and flow for npm library",
-  "version": "0.0.0-development",
   "author": "gunubin",
   "ava": {
     "babel": "inherit",
